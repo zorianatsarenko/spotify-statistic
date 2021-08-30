@@ -5,7 +5,7 @@ require("dotenv").config();
 const app = express();
 app.use(cors());
 app.use(express.json());
-
+const port = process.env.port || 8888;
 app.post("/refresh", (req, res) => {
   const refreshToken = req.body.refreshToken;
   console.log("refreshing");
@@ -15,6 +15,9 @@ app.post("/refresh", (req, res) => {
     clientSecret: process.env.CLIENT_SECRET,
     refreshToken,
   });
+  if (process.env.NODE_ENV === "production") {
+    app.use(express.static("client/build"));
+  }
 
   spotifyApi
     .refreshAccessToken()
@@ -50,6 +53,6 @@ app.post("/login", (req, res) => {
     });
 });
 
-app.listen(8888, () => {
+app.listen(port, () => {
   console.log("app is listening on port 8888");
 });
