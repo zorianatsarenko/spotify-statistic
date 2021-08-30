@@ -54,5 +54,5 @@ app.post("/login", (req, res) => {
 });
 
 app.listen(port, () => {
-  console.log("app is listening on port 8888");
+  console.log(`app is listening on port${port}`);
 });
